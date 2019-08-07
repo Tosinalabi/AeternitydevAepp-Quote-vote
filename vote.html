@@ -1,53 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>QUOTE VOTING AEPP - Vote</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+    href="bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="Vote.css">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="manifest" href="favicon/site.webmanifest">
+    <title>QUOTE VOTING AEPP</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-12 text-center div-center">
 
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="css/vote.css">
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 col-sm-12 text-center div-center">
-        <div id="title-div">
-          <h4 class="text-info">REGISTER AND VOTE ON YOUR FAVOURITE QUOTES</h4>
-          <img src="images/icons8-quote-100.png" alt="Logo">
-        </div>
-        <div id="message">
-          <div id="loader" class="alert alert-secondary">
-            <img src="images/giphy.gif">
-            <div><b>Processing...</b></div>
+          <div id="title-div">
+            <h4 class="text-info">REGISTER AND VOTE ON YOUR FAVOURITE QUOTES</h4>
+            <img src="images/icons8-quote-100.png">
           </div>
-        </div>
-        <div>
-          <form>
-            <div class="form-row">
-              <div class="col">
-                <input type="text" id="regUrl" class="form-control" placeholder="Upload Quote url">
-              </div>
-              <div class="col">
-                <input type="text" id="regName" class="form-control" placeholder="Name Of Author">
-              </div>
+
+          <div id="message">
+            <div id="loader" class="alert alert-secondary">
+              <img src="images/giphy.gif">
+              <div><b>Processing</b></div>
             </div>
+          </div>
+
+          <div>
+            <form>
+              <div class="form-row">
+                <div class="col">
+                  <input type="text" id="regUrl" class="form-control" placeholder="Upload Quote url">
+                </div>
+                <div class="col">
+                  <input type="text" id="regName" class="form-control" placeholder="Name Of Author">
+                </div>
+              </div>
+            </form>
+
             <button id="registerBtn" class="btn btn-block">Register</button>
-          </form> 
-          <a  href="https://www.brainyquote.com/quote_pictures" class="btn btn-light mb-2">See More Quotes</a>
+            <a  href="https://www.brainyquote.com/quote_pictures" class="btn btn-light mb-2">See More Quotes</a>
+          </div>
+
+          <div id="quoteBody">
+          </div>
+
         </div>
-        <div id="quoteBody"></div>
       </div>
     </div>
-  </div>
 
-  <script id="template" type="x-tmpl-mustache">
+    <script id="template" type="x-tmpl-mustache">
       {{#quoteArray}}
         <div class="card">
           <h5 class="card-title">{{creatorName}}</h5>
@@ -60,10 +65,13 @@
         </div>
       {{/quoteArray}}
     </script>
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js"></script>
-  <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
-  <script src="js/vote.js"></script>
-  <script src="js/bootstrap.js"></script>
-</body>
+
+
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js">
+    </script>
+    <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
+    <script src="vote.js"></script>
+    <script src="bootstrap.js"></script>
+  </body>
 </html>
