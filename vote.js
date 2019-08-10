@@ -36,17 +36,17 @@ contract QuoteVote =
       put(state{ quotes = updatedQuotes })
 `;
 
-//Address of the meme voting smart contract on the testnet of the aeternity blockchain
+//Address of the quote voting smart contract on the testnet of the aeternity blockchain
 const contractAddress = 'ct_KmnKy5599FQ7z8GNF2gbBrTpnPh9LUASvftFuq8uBxGCnqpZq';
 //Create variable for client so it can be used in different functions
 var client = null;
-//Create a new global array for the memes
+//Create a new global array for the quotes
 var quoteArray = [];
-//Create a new variable to store the length of the meme globally
+//Create a new variable to store the length of the quote globally
 var quotesLength = 0;
 
 function renderQuotes() {
-  //Order the memes array so that the meme with the most votes is on top
+  //Order the quotes array so that the meme with the most votes is on top
   quoteArray = quoteArray.sort(function(a,b){return b.votes-a.votes})
   //Get the template we created in a block scoped variable
   let template = $('#template').html();
@@ -88,16 +88,16 @@ window.addEventListener('load', async () => {
   client = await Ae.Aepp();
 
   //First make a call to get to know how may memes have been created and need to be displayed
-  //Assign the value of meme length to the global variable
+  //Assign the value of quotes length to the global variable
   quotesLength = await callStatic('getQuotesLength', []);
 
-  //Loop over every meme to get all their relevant information
+  //Loop over every quote to get all their relevant information
   for (let i = 1; i <= quotesLength; i++) {
 
     //Make the call to the blockchain to get all relevant information on the meme
     const quote = await callStatic('getQuote', [i]);
 
-    //Create meme object with  info from the call and push into the array with all memes
+    //Create quote object with  info from the call and push into the array with all quotes
     quoteArray.push({
       creatorName: quote.name,
       quoteUrl: quote.url,
@@ -106,22 +106,22 @@ window.addEventListener('load', async () => {
     })
   };
 
-  //Display updated memes
+  //Display updated quotes
   renderQuotes();
 
   //Hide loader animation
   $("#loader").hide();
 });
 
-//If someone clicks to vote on a meme, get the input and execute the voteCall
+//If someone clicks to vote on a quote, get the input and execute the voteCall
 jQuery("#quoteBody").on("click", ".voteBtn", async function(event){
   $("#loader").show();
   //Create two new let block scoped variables, value for the vote input and
-  //index to get the index of the meme on which the user wants to vote
+  //index to get the index of the quote on which the user wants to vote
   let value = $(this).siblings('input').val(),
       index = event.target.id;
 
-  //Promise to execute execute call for the vote meme function with let values
+  //Promise to execute execute call for the vote quote function with let values
   await contractCall('voteQuote', [index], value);
 
   //Hide the loading animation after async calls return a value
@@ -133,17 +133,17 @@ jQuery("#quoteBody").on("click", ".voteBtn", async function(event){
   $("#loader").hide();
 });
 
-//If someone clicks to register a meme, get the input and execute the registerCall
+//If someone clicks to register a quote, get the input and execute the registerCall
 $('#registerBtn').click(async function(){
   $("#loader").show();
   //Create two new let variables which get the values from the input fields
   const name = ($('#regName').val()),
         url = ($('#regUrl').val());
 
-  //Make the contract call to register the meme with the newly passed values
+  //Make the contract call to register the quote with the newly passed values
   await contractCall('registerQuote', [url, name], 0);
 
-  //Add the new created memeobject to our memearray
+  //Add the new created quoteobject to our quotearray
   quoteArray.push({
     creatorName: name,
     quoteUrl: url,
