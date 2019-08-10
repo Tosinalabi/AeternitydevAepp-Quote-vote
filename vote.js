@@ -46,7 +46,7 @@ var quoteArray = [];
 var quotesLength = 0;
 
 function renderQuotes() {
-  //Order the quotes array so that the meme with the most votes is on top
+  //Order the quotes array so that the quote with the most votes is on top
   quoteArray = quoteArray.sort(function(a,b){return b.votes-a.votes})
   //Get the template we created in a block scoped variable
   let template = $('#template').html();
@@ -87,14 +87,14 @@ window.addEventListener('load', async () => {
   //Initialize the Aepp object through aepp-sdk.browser.js, the base app needs to be running.
   client = await Ae.Aepp();
 
-  //First make a call to get to know how may memes have been created and need to be displayed
+  //First make a call to get to know how may quotes have been created and need to be displayed
   //Assign the value of quotes length to the global variable
   quotesLength = await callStatic('getQuotesLength', []);
 
   //Loop over every quote to get all their relevant information
   for (let i = 1; i <= quotesLength; i++) {
 
-    //Make the call to the blockchain to get all relevant information on the meme
+    //Make the call to the blockchain to get all relevant information on the quote
     const quote = await callStatic('getQuote', [i]);
 
     //Create quote object with  info from the call and push into the array with all quotes
