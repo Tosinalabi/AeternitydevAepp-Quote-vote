@@ -1,36 +1,43 @@
 const contractSource = `
 contract QuoteVote =
-  record quote =
-  { creatorAddress : address,
-      url            : string,
-      name           : string,
-      voteCount      : int }
-  record state =
-  { quotes      : map(int, quote),
-      quotesLength : int }
-  entrypoint init() =
-  { quotes = {},
-      quotesLength = 0 }
-  entrypoint getQuote(index : int) : quote =
-  switch(Map.lookup(index, state.quotes))
-      None    => abort("There was no quote with this index registered.")
-      Some(x) => x
-  stateful entrypoint registerQuote(url' : string, name' : string) =
-  let quote = { creatorAddress = Call.caller, url = url', name = name', voteCount = 0}
-  let index = getQuotesLength() + 1
-  put(state{ quotes[index] = quote, quotesLength = index })
-  entrypoint getQuotesLength() : int =
-  state.quotesLength
-  stateful entrypoint voteQuote(index : int) =
-  let quote = getQuote(index)
-  Chain.spend(quote.creatorAddress, Call.value)
-  let updatedVoteCount = quote.voteCount + Call.value
-  let updatedQuotes = state.quotes{ [index].voteCount = updatedVoteCount }
-  put(state{ quotes = updatedQuotes })
+  
+    record quote =
+      { creatorAddress : address,
+        url            : string,
+        name           : string,
+        voteCount      : int }
+        
+    record state =
+      { quotes      : map(int, quote),
+        quotesLength : int }
+        
+    entrypoint init() =
+      { quotes = {},
+        quotesLength = 0 }
+        
+    entrypoint getQuote(index : int) : quote =
+      switch(Map.lookup(index, state.quotes))
+        None    => abort("There was no quote with this index registered.")
+        Some(x) => x
+        
+    stateful entrypoint registerQuote(url' : string, name' : string) =
+      let quote = { creatorAddress = Call.caller, url = url', name = name', voteCount = 0}
+      let index = getQuotesLength() + 1
+      put(state{ quotes[index] = quote, quotesLength = index })
+      
+    entrypoint getQuotesLength() : int =
+      state.quotesLength
+      
+    stateful entrypoint voteQuote(index : int) =
+      let quote = getQuote(index)
+      Chain.spend(quote.creatorAddress, Call.value)
+      let updatedVoteCount = quote.voteCount + Call.value
+      let updatedQuotes = state.quotes{ [index].voteCount = updatedVoteCount }
+      put(state{ quotes = updatedQuotes })
 `;
 
 //Address of the meme voting smart contract on the testnet of the aeternity blockchain
-const contractAddress = 'ct_2PCQNNwuDqaVn4SY8MuW9NzYYAxkRaxi5DVFsmpBTvZrYv6JKW';
+const contractAddress = 'ct_KmnKy5599FQ7z8GNF2gbBrTpnPh9LUASvftFuq8uBxGCnqpZq';
 //Create variable for client so it can be used in different functions
 var client = null;
 //Create a new global array for the memes
